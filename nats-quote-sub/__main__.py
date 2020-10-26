@@ -15,7 +15,7 @@ QUEUE = 'friends_queue'
 
 def write_to_db(data):
     db = mysql.connector.connect(
-        host='localhost',
+        host=os.getenv('DB_HOST'),
         user=os.getenv('DB_USER'),
         database=os.getenv('DB_NAME'),
         password=os.getenv('DB_PASSWRD'),
@@ -40,7 +40,7 @@ def write_to_db(data):
     cursor.close()
     db.close()
 
-
+# General pattern taken from https://github.com/nats-io/nats.py/blob/master/examples/nats-sub/__main__.py
 async def run(loop):
     nats_conn = NATS()
 
@@ -69,7 +69,7 @@ async def run(loop):
     }
 
     try:
-        options['servers'] = 'nats://nats-app:4222'
+        options['servers'] = 'nats://nats:4222'
 
         await nats_conn.connect(**options)
     except Exception as e:

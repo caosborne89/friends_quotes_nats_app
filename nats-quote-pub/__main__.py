@@ -3,6 +3,7 @@ import json
 import asyncio
 from nats.aio.client import Client as NATS
 
+# General pattern taken from https://github.com/nats-io/nats.py/blob/master/examples/nats-pub/__main__.py
 async def run(loop):
     nats_conn = NATS()
     subject = 'friends_quote'
@@ -35,7 +36,7 @@ async def run(loop):
     }
 
     try:
-        options['servers'] = 'nats://nats-app:4222'
+        options['servers'] = 'nats://nats:4222'
 
         await nats_conn.connect(**options)
     except Exception as e:
@@ -48,7 +49,6 @@ async def run(loop):
     await nats_conn.close()
 
 if __name__ == '__main__':
-    # Loop pattern taken from https://github.com/nats-io/nats.py/blob/master/examples/nats-pub/__main__.py
     loop = asyncio.get_event_loop()
     try:
         loop.run_until_complete(run(loop))
