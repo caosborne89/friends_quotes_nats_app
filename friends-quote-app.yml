@@ -1,0 +1,41 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: app-friends-quotes-pub-deployment
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: friends-quote-nats-pub
+            image: cao89/friends-quote-nats-pub
+          restartPolicy: OnFailure
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-friends-quotes-sub-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: friends-quote-nats-app
+  template:
+    metadata:
+      labels:
+        app: friends-quote-nats-app
+    spec:
+      containers:
+      - name: friends-quote-nats-sub
+        image: cao89/friends-quote-nats-sub
+        env:
+        - name: DB_HOST
+          value: mysql
+        - name: DB_USER
+          value: nats_sub_user
+        - name: DB_NAME
+          value: nats_sub
+        - name: DB_PASSWRD
+          value: nats_sub
