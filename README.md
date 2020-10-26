@@ -1,6 +1,6 @@
 # Name of the project
 
-Nats subscriber and publisher for publishing
+Nats subscriber and publisher for publishing friends quotes pulled from the [Friends Quote API](https://friends-quotes-api.herokuapp.com) and subscribing to them using the Nats server. The quotes are stored in a mysql database.
 
 ## Requirements
 
