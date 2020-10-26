@@ -69,7 +69,7 @@ async def run(loop):
     }
 
     try:
-        options['servers'] = 'nats://127.0.0.1:4222'
+        options['servers'] = 'nats://nats-app:4222'
 
         await nats_conn.connect(**options)
     except Exception as e:
